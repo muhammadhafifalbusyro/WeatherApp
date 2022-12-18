@@ -14,8 +14,8 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-GoSpotWeatherApp-GoSpotWeatherAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-GoSpotWeatherApp-GoSpotWeatherAppTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		D0392C2D63AD412B82519DE9 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73293FE237FF48FBA788EDB0 /* Poppins-Regular.ttf */; };
 		A4DF83B546C14A658C1B3621 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3469E3E8CAD44994859A4153 /* Nunito-Regular.ttf */; };
+		D0392C2D63AD412B82519DE9 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73293FE237FF48FBA788EDB0 /* Poppins-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +39,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = GoSpotWeatherApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = GoSpotWeatherApp/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-GoSpotWeatherApp-GoSpotWeatherAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoSpotWeatherApp-GoSpotWeatherAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3469E3E8CAD44994859A4153 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Regular.ttf"; path = "../src/assets/fonts/Nunito-Regular.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-GoSpotWeatherApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoSpotWeatherApp.debug.xcconfig"; path = "Target Support Files/Pods-GoSpotWeatherApp/Pods-GoSpotWeatherApp.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-GoSpotWeatherApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoSpotWeatherApp.release.xcconfig"; path = "Target Support Files/Pods-GoSpotWeatherApp/Pods-GoSpotWeatherApp.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-GoSpotWeatherApp-GoSpotWeatherAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoSpotWeatherApp-GoSpotWeatherAppTests.debug.xcconfig"; path = "Target Support Files/Pods-GoSpotWeatherApp-GoSpotWeatherAppTests/Pods-GoSpotWeatherApp-GoSpotWeatherAppTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -47,7 +48,6 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = GoSpotWeatherApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-GoSpotWeatherApp-GoSpotWeatherAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoSpotWeatherApp-GoSpotWeatherAppTests.release.xcconfig"; path = "Target Support Files/Pods-GoSpotWeatherApp-GoSpotWeatherAppTests/Pods-GoSpotWeatherApp-GoSpotWeatherAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		3469E3E8CAD44994859A4153 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; name = "Nunito-Regular.ttf"; path = "../src/assets/fonts/Nunito-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
