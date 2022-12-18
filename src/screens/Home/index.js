@@ -83,6 +83,7 @@ const Home = ({navigation, route}) => {
           place: result.name,
           main: result.main,
           weather: result.weather[0].main,
+          coord: result.coord,
         };
 
         setHourlyForecast(dataWeatherHourly);
@@ -133,7 +134,10 @@ const Home = ({navigation, route}) => {
           <View style={styles.wrapperImgBackground}>
             <Pressable
               onPress={() => {
-                navigation.navigate('Detail');
+                if (dataCurrent == null) {
+                  return false;
+                }
+                navigation.navigate('Detail', {dataCurrent: dataCurrent});
               }}>
               <View style={styles.cityWrapper}>
                 <Icon name="star" color={colors.white} size={15} />

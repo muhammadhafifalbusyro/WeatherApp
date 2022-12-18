@@ -16,41 +16,10 @@ import {getMoviesFromApi} from '../../services/TestConsume';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {ButtonCustom, CardItem} from '../../components';
 
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
-
 const Detail = ({navigation, route}) => {
+  const {dataCurrent} = route.params;
   const globalContext = useContext(GlobalContext);
   const dark = globalContext.state.isDark;
-  const [perTimeDatasWeather, setPerTimeDatasWeather] = useState([{}, {}, {}]);
-  const [hourlyForecast, setHourlyForecast] = useState([
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-  ]);
-  const [next14Days, setNext14Days] = useState([
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-  ]);
-  const [keyItem, setkeyItem] = useState(null);
   const [allowNotif, setAllowNotif] = useState(true);
   const [schedule, setSchedule] = useState(false);
   const [precipitation, setPrecipitation] = useState(true);
@@ -60,698 +29,431 @@ const Detail = ({navigation, route}) => {
   const [lightningTracker, setLightningTracker] = useState(true);
   const [huricaneTracker, setHuricaneTracker] = useState(true);
 
-  const openModal = key => {
-    if (key == keyItem) {
-      setkeyItem(null);
-    } else {
-      setkeyItem(key);
-    }
-  };
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[
+        styles.container,
+        {backgroundColor: dark ? colors.black : colors.white},
+      ]}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            height: 50,
-            width: '100%',
-            paddingHorizontal: 20,
-            justifyContent: 'space-between',
-            flexDirection: 'row',
-            alignItems: 'center',
-            backgroundColor: colors.white,
-          }}>
+        <View style={styles.header}>
           <Text
-            style={{
-              fontFamily: fonts.PoppinsRegular,
-              color: colors.black,
-              marginLeft: 10,
-              fontSize: 16,
-            }}>
+            onPress={() => navigation.goBack()}
+            style={[
+              styles.textHeader,
+              {color: dark ? colors.white : colors.black},
+            ]}>
             Cancel
           </Text>
           <Text
-            style={{
-              fontFamily: fonts.PoppinsRegular,
-              color: colors.black,
-              marginLeft: 10,
-              fontSize: 16,
-            }}>
+            onPress={() => navigation.goBack()}
+            style={[
+              styles.textHeader,
+              {color: dark ? colors.white : colors.black},
+            ]}>
             Done
           </Text>
         </View>
-        <View
-          style={{height: 200, width: '100%', backgroundColor: colors.white}}>
-          <View
-            style={{
-              height: '100%',
-              width: '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: colors.white,
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: 5,
-              }}>
+        <View style={styles.wrapWeather}>
+          <View style={styles.bodyWeather}>
+            <View style={styles.wrapContentHeader}>
               <Icon
                 name="cloudy-night-outline"
                 size={30}
                 color={colors.black}
               />
               <Text
-                style={{
-                  fontFamily: fonts.PoppinsRegular,
-                  color: colors.black,
-                  marginLeft: 10,
-                  fontSize: 40,
-                }}>
-                30°
+                style={[
+                  styles.wrapTextContent,
+                  {color: dark ? colors.white : colors.black},
+                ]}>
+                {dataCurrent != null
+                  ? Math.ceil(dataCurrent.main.temp) + '°C'
+                  : '0°C'}
               </Text>
             </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Icon name="arrow-up" size={30} color={colors.black} />
+            <View style={styles.wrapMinMax}>
+              <Icon
+                name="arrow-up"
+                size={30}
+                color={dark ? colors.white : colors.black}
+              />
               <Text
-                style={{
-                  fontFamily: fonts.PoppinsRegular,
-                  color: colors.black,
-                  marginLeft: 10,
-                  fontSize: 20,
-                }}>
-                30°
+                style={[
+                  styles.textMinMax,
+                  {color: dark ? colors.white : colors.black},
+                ]}>
+                {dataCurrent != null
+                  ? Math.ceil(dataCurrent.main.temp_max) + '°C'
+                  : '0°C'}
               </Text>
               <Icon
                 name="arrow-down"
                 size={30}
-                color={colors.black}
+                color={dark ? colors.white : colors.black}
                 style={{marginLeft: 10}}
               />
               <Text
-                style={{
-                  fontFamily: fonts.PoppinsRegular,
-                  color: colors.black,
-                  marginLeft: 10,
-                  fontSize: 20,
-                }}>
-                25°
+                style={[
+                  styles.textMinMax,
+                  {color: dark ? colors.white : colors.black, marginLeft: 10},
+                ]}>
+                {dataCurrent != null
+                  ? Math.ceil(dataCurrent.main.temp_min) + '°C'
+                  : '0°C'}
               </Text>
             </View>
             <Text
-              style={{
-                fontFamily: fonts.PoppinsRegular,
-                color: colors.black,
-                marginLeft: 10,
-                fontSize: 20,
-              }}>
-              Mostly Sunny
+              style={[
+                styles.descWeather,
+                {color: dark ? colors.white : colors.black},
+              ]}>
+              {dataCurrent != null ? dataCurrent.weather : ''}
             </Text>
           </View>
         </View>
-        <View
-          style={{
-            width: '100%',
-            backgroundColor: colors.white,
-          }}>
-          <CardItem
-            title="Allow Notifications"
-            iconName="notifications"
-            boxIconColor="limegreen"
-            valueToggle={allowNotif}
-            onChangeToggle={() => setAllowNotif(!allowNotif)}
-          />
-          <CardItem
-            title="Schedule"
-            iconName="notifications-circle"
-            boxIconColor="#9e4af7"
-            valueToggle={schedule}
-            onChangeToggle={() => setSchedule(!schedule)}
-          />
 
-          <Text
-            style={{
-              fontFamily: fonts.PoppinsRegular,
-              color: colors.black,
-              margin: 20,
-              marginBottom: 0,
-              fontSize: 16,
-            }}>
-            WEATHER UPDATES
-          </Text>
-          <CardItem
-            title="Precipitation Updates"
-            iconName="umbrella"
-            boxIconColor="deepskyblue"
-            valueToggle={precipitation}
-            onChangeToggle={() => setPrecipitation(!precipitation)}
-          />
-          <CardItem
-            title="Major Changes"
-            iconName="cloud"
-            boxIconColor="orange"
-            valueToggle={major}
-            onChangeToggle={() => setMajor(!major)}
-          />
+        <CardItem
+          title="Allow Notifications"
+          iconName="notifications"
+          boxIconColor="limegreen"
+          valueToggle={allowNotif}
+          onChangeToggle={() => setAllowNotif(!allowNotif)}
+        />
+        <CardItem
+          title="Schedule"
+          iconName="notifications-circle"
+          boxIconColor="#9e4af7"
+          valueToggle={schedule}
+          onChangeToggle={() => setSchedule(!schedule)}
+        />
 
-          {/* morning updates */}
+        <Text
+          style={[styles.title, {color: dark ? colors.white : colors.black}]}>
+          WEATHER UPDATES
+        </Text>
+        <CardItem
+          title="Precipitation Updates"
+          iconName="umbrella"
+          boxIconColor="deepskyblue"
+          valueToggle={precipitation}
+          onChangeToggle={() => setPrecipitation(!precipitation)}
+        />
+        <CardItem
+          title="Major Changes"
+          iconName="cloud"
+          boxIconColor="orange"
+          valueToggle={major}
+          onChangeToggle={() => setMajor(!major)}
+        />
+
+        {/* morning updates */}
+        <View style={styles.wrapBodyContent}>
+          <View style={[styles.boxIcon, {backgroundColor: 'gold'}]}>
+            <Icon name="sunny" color={colors.white} size={20} />
+          </View>
           <View
-            style={{
-              height: 60,
-              width: '100%',
-              flexDirection: 'row',
-              paddingHorizontal: 20,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <View
-              style={{
-                height: 40,
-                width: 40,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'gold',
-                borderRadius: 10,
-              }}>
-              <Icon name="sunny" color={colors.white} size={20} />
-            </View>
-            <View
-              style={{
-                height: 60,
-                width: '80%',
-                borderBottomWidth: morning ? 0 : 2,
-                borderColor: colors.lightgray,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                style={{
-                  fontFamily: fonts.PoppinsRegular,
-                  color: colors.black,
-                  marginLeft: 10,
-                  fontSize: 16,
-                  width: '50%',
-                }}>
-                Morning Updates
-              </Text>
-              <Pressable onPress={() => setMorning(!morning)}>
-                <View
-                  style={{
-                    height: 40,
-                    width: 60,
+            style={[
+              styles.wrapTextItem,
+              {borderBottomWidth: morning ? 0 : dark ? 0.3 : 2},
+            ]}>
+            <Text
+              style={[
+                styles.textItem,
+                {color: dark ? colors.white : colors.black},
+              ]}>
+              Morning Updates
+            </Text>
+            <Pressable onPress={() => setMorning(!morning)}>
+              <View
+                style={[
+                  styles.toggleWrap,
+                  {
                     backgroundColor: morning
                       ? colors.primary
+                      : dark
+                      ? '#242424'
                       : colors.lightgray,
-                    borderRadius: 40,
-                    padding: 3,
+
                     alignItems: morning ? 'flex-end' : 'flex-start',
-                  }}>
-                  <View
-                    style={{
-                      height: 34,
-                      width: 34,
-                      backgroundColor: colors.white,
-                      borderRadius: 34,
-                    }}></View>
-                </View>
-              </Pressable>
-            </View>
+                  },
+                ]}>
+                <View style={styles.pin}></View>
+              </View>
+            </Pressable>
           </View>
-          {morning && (
+        </View>
+        {morning && (
+          <View style={styles.wrapBodyContent}>
             <View
-              style={{
-                height: 60,
-                width: '100%',
-                flexDirection: 'row',
-                paddingHorizontal: 20,
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <View
-                style={{
-                  height: 40,
-                  width: 40,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 10,
-                }}></View>
-              <View
-                style={{
-                  height: 60,
-                  width: '80%',
-                  borderBottomWidth: morning ? 2 : 0,
-                  borderColor: colors.lightgray,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}>
+              style={[
+                styles.boxIcon,
+                {backgroundColor: dark ? colors.black : colors.white},
+              ]}></View>
+            <View
+              style={[
+                styles.wrapTextItem,
+                {borderBottomWidth: morning ? (dark ? 0.3 : 2) : 0},
+              ]}>
+              <Text
+                style={[
+                  styles.textItem,
+                  {color: dark ? colors.white : colors.black},
+                ]}>
+                Delivery Time
+              </Text>
+
+              <View style={styles.boxTime}>
                 <Text
                   style={{
                     fontFamily: fonts.PoppinsRegular,
                     color: colors.black,
-                    marginLeft: 10,
-                    fontSize: 16,
-                    width: '50%',
                   }}>
-                  Delivery Time
+                  08:00
                 </Text>
-
-                <View
-                  style={{
-                    height: 40,
-                    width: 80,
-                    backgroundColor: colors.lightgray,
-                    borderRadius: 10,
-                    padding: 3,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  <Text
-                    style={{
-                      fontFamily: fonts.PoppinsRegular,
-                      color: colors.black,
-                    }}>
-                    08:00
-                  </Text>
-                </View>
               </View>
             </View>
-          )}
-          {/* Evening Updates */}
+          </View>
+        )}
+        {/* Evening Updates */}
+        <View style={styles.wrapBodyContent}>
+          <View style={[styles.boxIcon, {backgroundColor: 'gold'}]}>
+            <Icon name="moon" color={colors.white} size={20} />
+          </View>
           <View
-            style={{
-              height: 60,
-              width: '100%',
-              flexDirection: 'row',
-              paddingHorizontal: 20,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <View
-              style={{
-                height: 40,
-                width: 40,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'pink',
-                borderRadius: 10,
-              }}>
-              <Icon name="moon" color={colors.white} size={20} />
-            </View>
-            <View
-              style={{
-                height: 60,
-                width: '80%',
-                borderBottomWidth: evening ? 0 : 2,
-                borderColor: colors.lightgray,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                style={{
-                  fontFamily: fonts.PoppinsRegular,
-                  color: colors.black,
-                  marginLeft: 10,
-                  fontSize: 16,
-                  width: '50%',
-                }}>
-                Evening Updates
-              </Text>
-              <Pressable onPress={() => setEvening(!evening)}>
-                <View
-                  style={{
-                    height: 40,
-                    width: 60,
+            style={[
+              styles.wrapTextItem,
+              {borderBottomWidth: evening ? 0 : dark ? 0.3 : 2},
+            ]}>
+            <Text
+              style={[
+                styles.textItem,
+                {color: dark ? colors.white : colors.black},
+              ]}>
+              Evening Updates
+            </Text>
+            <Pressable onPress={() => setEvening(!evening)}>
+              <View
+                style={[
+                  styles.toggleWrap,
+                  {
                     backgroundColor: evening
                       ? colors.primary
+                      : dark
+                      ? '#242424'
                       : colors.lightgray,
-                    borderRadius: 40,
-                    padding: 3,
+
                     alignItems: evening ? 'flex-end' : 'flex-start',
-                  }}>
-                  <View
-                    style={{
-                      height: 34,
-                      width: 34,
-                      backgroundColor: colors.white,
-                      borderRadius: 34,
-                    }}></View>
-                </View>
-              </Pressable>
-            </View>
+                  },
+                ]}>
+                <View style={styles.pin}></View>
+              </View>
+            </Pressable>
           </View>
-          {evening && (
+        </View>
+        {evening && (
+          <View style={styles.wrapBodyContent}>
             <View
-              style={{
-                height: 60,
-                width: '100%',
-                flexDirection: 'row',
-                paddingHorizontal: 20,
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <View
-                style={{
-                  height: 40,
-                  width: 40,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 10,
-                }}></View>
-              <View
-                style={{
-                  height: 60,
-                  width: '80%',
-                  borderBottomWidth: evening ? 2 : 0,
-                  borderColor: colors.lightgray,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}>
+              style={[
+                styles.boxIcon,
+                {backgroundColor: dark ? colors.black : colors.white},
+              ]}></View>
+            <View
+              style={[
+                styles.wrapTextItem,
+                {borderBottomWidth: evening ? (dark ? 0.3 : 2) : 0},
+              ]}>
+              <Text
+                style={[
+                  styles.textItem,
+                  {color: dark ? colors.white : colors.black},
+                ]}>
+                Delivery Time
+              </Text>
+
+              <View style={styles.boxTime}>
                 <Text
                   style={{
                     fontFamily: fonts.PoppinsRegular,
                     color: colors.black,
-                    marginLeft: 10,
-                    fontSize: 16,
-                    width: '50%',
                   }}>
-                  Delivery Time
+                  21:00
                 </Text>
-
-                <View
-                  style={{
-                    height: 40,
-                    width: 80,
-                    backgroundColor: colors.lightgray,
-                    borderRadius: 10,
-                    padding: 3,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  <Text
-                    style={{
-                      fontFamily: fonts.PoppinsRegular,
-                      color: colors.black,
-                    }}>
-                    21:00
-                  </Text>
-                </View>
               </View>
             </View>
-          )}
-          {/* End Evening */}
-          <Text
-            style={{
-              fontFamily: fonts.PoppinsRegular,
-              color: colors.black,
-              margin: 20,
-              marginBottom: 0,
-              fontSize: 16,
-            }}>
-            SEVERE WEATHER
-          </Text>
-          {/* Lightning Tracker */}
+          </View>
+        )}
+        {/* End Evening */}
+        <Text
+          style={[styles.title, {color: dark ? colors.white : colors.black}]}>
+          SEVERE WEATHER
+        </Text>
+        {/* Lightning Tracker */}
+        <View style={styles.wrapBodyContent}>
+          <View style={[styles.boxIcon, {backgroundColor: 'gold'}]}>
+            <Icon name="flash" color={colors.white} size={20} />
+          </View>
           <View
-            style={{
-              height: 60,
-              width: '100%',
-              flexDirection: 'row',
-              paddingHorizontal: 20,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <View
-              style={{
-                height: 40,
-                width: 40,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'magenta',
-                borderRadius: 10,
-              }}>
-              <Icon name="flash" color={colors.white} size={20} />
-            </View>
-            <View
-              style={{
-                height: 60,
-                width: '80%',
-                borderBottomWidth: lightningTracker ? 0 : 2,
-                borderColor: colors.lightgray,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                style={{
-                  fontFamily: fonts.PoppinsRegular,
-                  color: colors.black,
-                  marginLeft: 10,
-                  fontSize: 16,
-                  width: '50%',
-                }}>
-                Lightning Tracker
-              </Text>
-              <Pressable onPress={() => setLightningTracker(!lightningTracker)}>
-                <View
-                  style={{
-                    height: 40,
-                    width: 60,
+            style={[
+              styles.wrapTextItem,
+              {borderBottomWidth: lightningTracker ? 0 : dark ? 0.3 : 2},
+            ]}>
+            <Text
+              style={[
+                styles.textItem,
+                {color: dark ? colors.white : colors.black},
+              ]}>
+              Lightning Tracker
+            </Text>
+            <Pressable onPress={() => setLightningTracker(!lightningTracker)}>
+              <View
+                style={[
+                  styles.toggleWrap,
+                  {
                     backgroundColor: lightningTracker
                       ? colors.primary
+                      : dark
+                      ? '#242424'
                       : colors.lightgray,
-                    borderRadius: 40,
-                    padding: 3,
+
                     alignItems: lightningTracker ? 'flex-end' : 'flex-start',
-                  }}>
-                  <View
-                    style={{
-                      height: 34,
-                      width: 34,
-                      backgroundColor: colors.white,
-                      borderRadius: 34,
-                    }}></View>
-                </View>
-              </Pressable>
-            </View>
-          </View>
-          {lightningTracker && (
-            <View
-              style={{
-                width: '100%',
-                flexDirection: 'row',
-                paddingHorizontal: 20,
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <View
-                style={{
-                  height: 40,
-                  width: 40,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 10,
-                }}></View>
-              <View
-                style={{
-                  width: '80%',
-                  borderBottomWidth: lightningTracker ? 2 : 0,
-                  borderColor: colors.lightgray,
-                  paddingVertical: 10,
-                }}>
-                <Text
-                  style={{
-                    fontFamily: fonts.PoppinsRegular,
-                    color: colors.black,
-                    marginLeft: 10,
-                    fontSize: 16,
-                    width: '100%',
-                  }}>
-                  Distance, km
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    height: 40,
-                    width: '100%',
-                    backgroundColor: colors.lightgray,
-                    borderRadius: 10,
-                    justifyContent: 'space-between',
-                    paddingVertical: 2,
-                  }}>
-                  {[1, 8, 16, 24, 48].map((value, key) => {
-                    return (
-                      <View
-                        key={key}
-                        style={{
-                          height: 36,
-                          width: '20%',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          backgroundColor: value == 24 ? colors.white : '',
-                        }}>
-                        <Text
-                          style={{
-                            fontFamily: fonts.PoppinsRegular,
-                            color: colors.primary,
-                          }}>
-                          {value}
-                        </Text>
-                      </View>
-                    );
-                  })}
-                </View>
-                <Text
-                  style={{
-                    fontFamily: fonts.PoppinsRegular,
-                    color: colors.gray,
-                    marginLeft: 10,
-                    fontSize: 14,
-                    width: '100%',
-                    marginTop: 10,
-                  }}>
-                  You'll only receive notifications about lightning strikes
-                  detected within the seleceted range from the location
-                </Text>
+                  },
+                ]}>
+                <View style={styles.pin}></View>
               </View>
-            </View>
-          )}
-          <CardItem
-            title="Hurricane Tracker "
-            iconName="thunderstorm"
-            boxIconColor="red"
-            valueToggle={huricaneTracker}
-            onChangeToggle={() => setHuricaneTracker(!huricaneTracker)}
-          />
-          <View
-            style={{
-              height: 60,
-              width: '100%',
-              flexDirection: 'row',
-              paddingHorizontal: 20,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <View
-              style={{
-                height: 40,
-                width: 40,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'dodgerblue',
-                borderRadius: 10,
-              }}>
-              <Icon name="alert-circle" color={colors.white} size={20} />
-            </View>
-            <View
-              style={{
-                height: 60,
-                width: '80%',
-                borderBottomWidth: lightningTracker ? 0 : 2,
-                borderColor: colors.lightgray,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                style={{
-                  fontFamily: fonts.PoppinsRegular,
-                  color: colors.black,
-                  marginLeft: 10,
-                  fontSize: 16,
-                  width: '50%',
-                }}>
-                Severe Weather Alerts
-              </Text>
-              <View
-                style={{
-                  height: 40,
-                  width: 60,
-                  justifyContent: 'center',
-                }}>
-                <Text
-                  style={{
-                    fontFamily: fonts.PoppinsRegular,
-                    color: colors.green,
-                    textAlign: 'right',
-                  }}>
-                  All {'>'}
-                </Text>
-              </View>
-            </View>
+            </Pressable>
           </View>
-          <Text
-            style={{
-              fontFamily: fonts.PoppinsRegular,
-              color: colors.black,
-              margin: 20,
-              marginBottom: 0,
-              fontSize: 16,
-            }}>
-            ACTUAL LOCATION
-          </Text>
-          <View
-            style={{
-              height: 60,
-              width: '100%',
-              flexDirection: 'row',
-              paddingHorizontal: 20,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <View
-              style={{
-                height: 40,
-                width: 40,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'skyblue',
-                borderRadius: 10,
-              }}>
-              <Icon name="location" color={colors.white} size={20} />
-            </View>
-            <View
-              style={{
-                height: 60,
-                width: '80%',
-                borderBottomWidth: lightningTracker ? 0 : 2,
-                borderColor: colors.lightgray,
-                justifyContent: 'center',
-              }}>
-              <Text
-                style={{
-                  fontFamily: fonts.PoppinsRegular,
-                  color: colors.black,
-                  marginLeft: 10,
-                  fontSize: 16,
-                  width: '100%',
-                }}>
-                Bantul
-              </Text>
-              <Text
-                style={{
-                  fontFamily: fonts.PoppinsRegular,
-                  color: colors.gray,
-                  marginLeft: 10,
-                  fontSize: 12,
-                  width: '100%',
-                }}>
-                LAT:0.00000001, LON:0.0000001
-              </Text>
-            </View>
-          </View>
-          <View style={{padding: 20}}>
-            <ButtonCustom title="Delete Location" color="lightpink" />
-          </View>
-          <View style={{height: 50, width: '100%'}} />
         </View>
+        {lightningTracker && (
+          <View style={styles.lightningWrap}>
+            <View style={styles.boxIconLighning}></View>
+            <View
+              style={[
+                styles.wrapBodyLightning,
+                {
+                  borderBottomWidth: lightningTracker ? (dark ? 0.3 : 2) : 0,
+                },
+              ]}>
+              <Text
+                style={[
+                  styles.textItem,
+                  {color: dark ? colors.white : colors.black, marginBottom: 10},
+                ]}>
+                Distance, km
+              </Text>
+              <View style={styles.wrapDistance}>
+                {[1, 8, 16, 24, 48].map((value, key) => {
+                  return (
+                    <View
+                      key={key}
+                      style={[
+                        styles.boxDistance,
+                        {
+                          backgroundColor: value == 24 ? colors.white : '',
+                        },
+                      ]}>
+                      <Text
+                        style={{
+                          fontFamily: fonts.PoppinsRegular,
+                          color: colors.primary,
+                        }}>
+                        {value}
+                      </Text>
+                    </View>
+                  );
+                })}
+              </View>
+              <Text
+                style={[
+                  styles.textPlace,
+                  {
+                    color: colors.gray,
+                    fontSize: 14,
+                    marginTop: 10,
+                  },
+                ]}>
+                You'll only receive notifications about lightning strikes
+                detected within the seleceted range from the location
+              </Text>
+            </View>
+          </View>
+        )}
+        <CardItem
+          title="Hurricane Tracker "
+          iconName="thunderstorm"
+          boxIconColor="red"
+          valueToggle={huricaneTracker}
+          onChangeToggle={() => setHuricaneTracker(!huricaneTracker)}
+        />
+        <View style={styles.wrapBodyContent}>
+          <View style={[styles.boxIcon, {backgroundColor: 'gold'}]}>
+            <Icon name="alert-circle" color={colors.white} size={20} />
+          </View>
+          <View
+            style={[styles.wrapTextItem, {borderBottomWidth: dark ? 0.3 : 2}]}>
+            <Text
+              style={[
+                styles.textItem,
+                {color: dark ? colors.white : colors.black},
+              ]}>
+              Severe Weather Alerts
+            </Text>
+            <View
+              style={{
+                height: 40,
+                width: 60,
+                justifyContent: 'center',
+              }}>
+              <Text
+                style={{
+                  fontFamily: fonts.PoppinsRegular,
+                  color: colors.green,
+                  textAlign: 'right',
+                }}>
+                All {'>'}
+              </Text>
+            </View>
+          </View>
+        </View>
+        <Text
+          style={[styles.title, {color: dark ? colors.white : colors.black}]}>
+          ACTUAL LOCATION
+        </Text>
+        <View style={styles.boxContent}>
+          <View style={styles.boxIcon}>
+            <Icon name="location" color={colors.white} size={20} />
+          </View>
+          <View
+            style={[
+              styles.bodyText,
+              {borderBottomWidth: lightningTracker ? 0 : 2},
+            ]}>
+            <Text
+              style={[
+                styles.textPlace,
+                {
+                  color: dark ? colors.white : colors.black,
+                },
+              ]}>
+              {dataCurrent != null ? dataCurrent.place : ''}
+            </Text>
+            <Text
+              style={[
+                styles.textPlace,
+                {
+                  color: colors.gray,
+                  fontSize: 12,
+                },
+              ]}>
+              LAT: {dataCurrent != null ? dataCurrent.coord.lat : ''}, LON:{' '}
+              {dataCurrent != null ? dataCurrent.coord.lon : ''}
+            </Text>
+          </View>
+        </View>
+        <View style={{padding: 20}}>
+          <ButtonCustom title="Delete Location" color="lightpink" />
+        </View>
+        <View style={{height: 50, width: '100%'}} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -772,6 +474,173 @@ const styles = StyleSheet.create({
     fontFamily: fonts.PoppinsRegular,
     fontSize: dimens.xxl,
     color: colors.black,
+  },
+  header: {
+    height: 50,
+    width: '100%',
+    paddingHorizontal: 20,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  textHeader: {
+    fontFamily: fonts.PoppinsRegular,
+    color: colors.black,
+    fontSize: 16,
+  },
+  wrapWeather: {
+    height: 200,
+    width: '100%',
+  },
+  bodyWeather: {
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  wrapContentHeader: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 5,
+  },
+  wrapTextContent: {
+    fontFamily: fonts.PoppinsRegular,
+    color: colors.black,
+    marginLeft: 10,
+    fontSize: 40,
+  },
+  wrapMinMax: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textMinMax: {
+    fontFamily: fonts.PoppinsRegular,
+    color: colors.black,
+    marginLeft: 10,
+    fontSize: 20,
+  },
+  descWeather: {
+    fontFamily: fonts.PoppinsRegular,
+    color: colors.black,
+    marginLeft: 10,
+    fontSize: 20,
+  },
+  title: {
+    fontFamily: fonts.PoppinsRegular,
+    color: colors.black,
+    margin: 20,
+    marginBottom: 0,
+    fontSize: 16,
+  },
+  boxContent: {
+    height: 60,
+    width: '100%',
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  boxIcon: {
+    height: 40,
+    width: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'skyblue',
+    borderRadius: 10,
+  },
+  bodyText: {
+    height: 60,
+    width: '80%',
+
+    borderColor: colors.lightgray,
+    justifyContent: 'center',
+  },
+  textPlace: {
+    fontFamily: fonts.PoppinsRegular,
+    color: colors.black,
+    marginLeft: 10,
+    fontSize: 16,
+    width: '100%',
+  },
+  wrapBodyContent: {
+    height: 60,
+    width: '100%',
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  wrapTextItem: {
+    height: 60,
+    width: '80%',
+    borderColor: colors.lightgray,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  textItem: {
+    fontFamily: fonts.PoppinsRegular,
+    color: colors.black,
+    marginLeft: 10,
+    fontSize: 16,
+    width: '50%',
+  },
+  toggleWrap: {
+    height: 40,
+    width: 60,
+    borderRadius: 40,
+    padding: 3,
+  },
+  pin: {
+    height: 34,
+    width: 34,
+    backgroundColor: colors.white,
+    borderRadius: 34,
+  },
+  boxTime: {
+    height: 40,
+    width: 80,
+    backgroundColor: colors.lightgray,
+    borderRadius: 10,
+    padding: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  lightningWrap: {
+    width: '100%',
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  boxIconLighning: {
+    height: 40,
+    width: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  wrapBodyLightning: {
+    width: '80%',
+    borderColor: colors.lightgray,
+    paddingVertical: 10,
+  },
+  wrapDistance: {
+    flexDirection: 'row',
+    height: 40,
+    width: '100%',
+    backgroundColor: colors.lightgray,
+    borderRadius: 10,
+    justifyContent: 'space-between',
+    paddingVertical: 2,
+  },
+  boxDistance: {
+    height: 36,
+    width: '20%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 export default Detail;

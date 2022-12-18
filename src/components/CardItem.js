@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Text, Pressable, View, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {fonts} from '../assets';
+import {GlobalContext} from '../Store/globalContext';
 import {colors} from '../utils';
 
 const CardItem = ({
@@ -11,13 +12,18 @@ const CardItem = ({
   onChangeToggle,
   valueToggle = false,
 }) => {
+  const globalContext = useContext(GlobalContext);
+  const dark = globalContext.state.isDark;
   return (
     <View style={styles.container}>
       <View style={[styles.boxIcon, {backgroundColor: boxIconColor}]}>
         <Icon name={iconName} color={colors.white} size={20} />
       </View>
-      <View style={styles.boxText}>
-        <Text style={styles.text}>{title}</Text>
+      <View style={[styles.boxText, {borderBottomWidth: dark ? 0.3 : 2}]}>
+        <Text
+          style={[styles.text, {color: dark ? colors.white : colors.black}]}>
+          {title}
+        </Text>
         <Pressable onPress={onChangeToggle}>
           <View
             style={[
@@ -25,6 +31,8 @@ const CardItem = ({
               {
                 backgroundColor: valueToggle
                   ? colors.primary
+                  : dark
+                  ? '#242424'
                   : colors.lightgray,
 
                 alignItems: valueToggle ? 'flex-end' : 'flex-start',
