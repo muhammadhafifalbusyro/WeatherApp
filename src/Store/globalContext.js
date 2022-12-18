@@ -6,13 +6,16 @@ const initialValue = {
 
 const globalTypes = {
   TOGGLE_IS_DARK: 'TOGGLE_IS_DARK',
+  TOGGLE_IS_LIGHT: 'TOGGLE_IS_LIGHT',
   SET_THEME: 'SET_THEME',
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case globalTypes.TOGGLE_IS_DARK:
-      return {isDark: !state.isDark};
+      return {isDark: true};
+    case globalTypes.TOGGLE_IS_LIGHT:
+      return {isDark: false};
     case globalTypes.SET_THEME:
       return {isDark: action.payload};
     default:

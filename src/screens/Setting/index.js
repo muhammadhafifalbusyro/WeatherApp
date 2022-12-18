@@ -4,21 +4,20 @@ import {colors, dimens} from '../../utils';
 import {fonts} from '../../assets';
 import {ButtonCustom} from '../../components';
 import {GlobalContext} from '../../Store/globalContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Setting = ({navigation, route}) => {
   const globalContext = useContext(GlobalContext);
   const dark = globalContext.state.isDark;
+
   const _setDarkTheme = () => {
-    if (dark == true) {
-      return false;
-    }
+    AsyncStorage.setItem('darkmode', '1');
     globalContext.dispatch({type: 'TOGGLE_IS_DARK'});
   };
+
   const _setLightTheme = () => {
-    if (dark == false) {
-      return false;
-    }
-    globalContext.dispatch({type: 'TOGGLE_IS_DARK'});
+    AsyncStorage.setItem('darkmode', '0');
+    globalContext.dispatch({type: 'TOGGLE_IS_LIGHT'});
   };
   console.log(globalContext.state);
   return (
@@ -38,6 +37,7 @@ const Setting = ({navigation, route}) => {
           onPress={_setLightTheme}
           buttonStyle={{marginTop: dimens.l}}
         />
+        <View style={styles.space} />
       </View>
     </SafeAreaView>
   );
@@ -57,6 +57,10 @@ const styles = StyleSheet.create({
     fontFamily: fonts.PoppinsRegular,
     fontSize: dimens.xxl,
     color: colors.black,
+  },
+  space: {
+    height: 50,
+    width: '100%',
   },
 });
 export default Setting;

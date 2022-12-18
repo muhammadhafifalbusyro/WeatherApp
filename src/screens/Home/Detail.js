@@ -14,7 +14,7 @@ import {fonts, images} from '../../assets';
 import {GlobalContext} from '../../Store/globalContext';
 import {getMoviesFromApi} from '../../services/TestConsume';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {color} from 'react-native-reanimated';
+import {CardItem} from '../../components';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -51,6 +51,12 @@ const Detail = ({navigation, route}) => {
     {},
   ]);
   const [keyItem, setkeyItem] = useState(null);
+  const [allowNotif, setAllowNotif] = useState(true);
+  const [schedule, setSchedule] = useState(false);
+  const [precipitation, setPrecipitation] = useState(true);
+  const [major, setMajor] = useState(true);
+  const [morning, setMorning] = useState(true);
+  const [evening, setEvening] = useState(true);
 
   const openModal = key => {
     if (key == keyItem) {
@@ -171,129 +177,21 @@ const Detail = ({navigation, route}) => {
             width: '100%',
             backgroundColor: colors.white,
           }}>
-          <View
-            style={{
-              height: 60,
-              width: '100%',
-              flexDirection: 'row',
-              paddingHorizontal: 20,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <View
-              style={{
-                height: 40,
-                width: 40,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: colors.green,
-                borderRadius: 10,
-              }}>
-              <Icon name="notifications" color={colors.white} size={20} />
-            </View>
-            <View
-              style={{
-                height: 60,
-                width: '80%',
-                borderBottomWidth: 2,
-                borderColor: colors.lightgray,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                style={{
-                  fontFamily: fonts.PoppinsRegular,
-                  color: colors.black,
-                  marginLeft: 10,
-                  fontSize: 16,
-                  width: '50%',
-                }}>
-                Allow Notification
-              </Text>
-              <View
-                style={{
-                  height: 40,
-                  width: 60,
-                  backgroundColor: colors.primary,
-                  borderRadius: 40,
-                  padding: 3,
-                  alignItems: 'flex-end',
-                }}>
-                <View
-                  style={{
-                    height: 34,
-                    width: 34,
-                    backgroundColor: colors.white,
-                    borderRadius: 34,
-                  }}></View>
-              </View>
-            </View>
-          </View>
-          {/* schedule */}
-          <View
-            style={{
-              height: 60,
-              width: '100%',
-              flexDirection: 'row',
-              paddingHorizontal: 20,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <View
-              style={{
-                height: 40,
-                width: 40,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: colors.green,
-                borderRadius: 10,
-              }}>
-              <Icon
-                name="notifications-circle"
-                color={colors.white}
-                size={20}
-              />
-            </View>
-            <View
-              style={{
-                height: 60,
-                width: '80%',
-                borderBottomWidth: 2,
-                borderColor: colors.lightgray,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                style={{
-                  fontFamily: fonts.PoppinsRegular,
-                  color: colors.black,
-                  marginLeft: 10,
-                  fontSize: 16,
-                  width: '50%',
-                }}>
-                Schedule
-              </Text>
-              <View
-                style={{
-                  height: 40,
-                  width: 60,
-                  backgroundColor: colors.lightgray,
-                  borderRadius: 40,
-                  padding: 3,
-                  alignItems: 'flex-start',
-                }}>
-                <View
-                  style={{
-                    height: 34,
-                    width: 34,
-                    backgroundColor: colors.white,
-                    borderRadius: 34,
-                  }}></View>
-              </View>
-            </View>
-          </View>
+          <CardItem
+            title="Allow Notifications"
+            iconName="notifications"
+            boxIconColor="limegreen"
+            valueToggle={allowNotif}
+            onChangeToggle={() => setAllowNotif(!allowNotif)}
+          />
+          <CardItem
+            title="Schedule"
+            iconName="notifications-circle"
+            boxIconColor="#9e4af7"
+            valueToggle={schedule}
+            onChangeToggle={() => setSchedule(!schedule)}
+          />
+
           <Text
             style={{
               fontFamily: fonts.PoppinsRegular,
@@ -304,125 +202,21 @@ const Detail = ({navigation, route}) => {
             }}>
             WEATHER UPDATES
           </Text>
-          <View
-            style={{
-              height: 60,
-              width: '100%',
-              flexDirection: 'row',
-              paddingHorizontal: 20,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <View
-              style={{
-                height: 40,
-                width: 40,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: colors.green,
-                borderRadius: 10,
-              }}>
-              <Icon name="umbrella" color={colors.white} size={20} />
-            </View>
-            <View
-              style={{
-                height: 60,
-                width: '80%',
-                borderBottomWidth: 2,
-                borderColor: colors.lightgray,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                style={{
-                  fontFamily: fonts.PoppinsRegular,
-                  color: colors.black,
-                  marginLeft: 10,
-                  fontSize: 16,
-                  width: '50%',
-                }}>
-                Precipitation Updates
-              </Text>
-              <View
-                style={{
-                  height: 40,
-                  width: 60,
-                  backgroundColor: colors.primary,
-                  borderRadius: 40,
-                  padding: 3,
-                  alignItems: 'flex-end',
-                }}>
-                <View
-                  style={{
-                    height: 34,
-                    width: 34,
-                    backgroundColor: colors.white,
-                    borderRadius: 34,
-                  }}></View>
-              </View>
-            </View>
-          </View>
-          {/* Major Changes */}
-          <View
-            style={{
-              height: 60,
-              width: '100%',
-              flexDirection: 'row',
-              paddingHorizontal: 20,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <View
-              style={{
-                height: 40,
-                width: 40,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: colors.green,
-                borderRadius: 10,
-              }}>
-              <Icon name="cloud" color={colors.white} size={20} />
-            </View>
-            <View
-              style={{
-                height: 60,
-                width: '80%',
-                borderBottomWidth: 2,
-                borderColor: colors.lightgray,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                style={{
-                  fontFamily: fonts.PoppinsRegular,
-                  color: colors.black,
-                  marginLeft: 10,
-                  fontSize: 16,
-                  width: '50%',
-                }}>
-                Major Changers
-              </Text>
-              <View
-                style={{
-                  height: 40,
-                  width: 60,
-                  backgroundColor: colors.primary,
-                  borderRadius: 40,
-                  padding: 3,
-                  alignItems: 'flex-end',
-                }}>
-                <View
-                  style={{
-                    height: 34,
-                    width: 34,
-                    backgroundColor: colors.white,
-                    borderRadius: 34,
-                  }}></View>
-              </View>
-            </View>
-          </View>
+          <CardItem
+            title="Precipitation Updates"
+            iconName="umbrella"
+            boxIconColor="deepskyblue"
+            valueToggle={precipitation}
+            onChangeToggle={() => setPrecipitation(!precipitation)}
+          />
+          <CardItem
+            title="Major Changes"
+            iconName="cloud"
+            boxIconColor="orange"
+            valueToggle={major}
+            onChangeToggle={() => setMajor(!major)}
+          />
+
           {/* morning updates */}
           <View
             style={{
@@ -439,7 +233,7 @@ const Detail = ({navigation, route}) => {
                 width: 40,
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: colors.green,
+                backgroundColor: 'gold',
                 borderRadius: 10,
               }}>
               <Icon name="sunny" color={colors.white} size={20} />
@@ -448,7 +242,7 @@ const Detail = ({navigation, route}) => {
               style={{
                 height: 60,
                 width: '80%',
-                borderBottomWidth: 2,
+                borderBottomWidth: morning ? 0 : 2,
                 borderColor: colors.lightgray,
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -464,25 +258,89 @@ const Detail = ({navigation, route}) => {
                 }}>
                 Morning Updates
               </Text>
+              <Pressable onPress={() => setMorning(!morning)}>
+                <View
+                  style={{
+                    height: 40,
+                    width: 60,
+                    backgroundColor: morning
+                      ? colors.primary
+                      : colors.lightgray,
+                    borderRadius: 40,
+                    padding: 3,
+                    alignItems: morning ? 'flex-end' : 'flex-start',
+                  }}>
+                  <View
+                    style={{
+                      height: 34,
+                      width: 34,
+                      backgroundColor: colors.white,
+                      borderRadius: 34,
+                    }}></View>
+                </View>
+              </Pressable>
+            </View>
+          </View>
+          {morning && (
+            <View
+              style={{
+                height: 60,
+                width: '100%',
+                flexDirection: 'row',
+                paddingHorizontal: 20,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
               <View
                 style={{
                   height: 40,
-                  width: 60,
-                  backgroundColor: colors.primary,
-                  borderRadius: 40,
-                  padding: 3,
-                  alignItems: 'flex-end',
+                  width: 40,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 10,
+                }}></View>
+              <View
+                style={{
+                  height: 60,
+                  width: '80%',
+                  borderBottomWidth: morning ? 2 : 0,
+                  borderColor: colors.lightgray,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}>
+                <Text
+                  style={{
+                    fontFamily: fonts.PoppinsRegular,
+                    color: colors.black,
+                    marginLeft: 10,
+                    fontSize: 16,
+                    width: '50%',
+                  }}>
+                  Delivery Time
+                </Text>
+
                 <View
                   style={{
-                    height: 34,
-                    width: 34,
-                    backgroundColor: colors.white,
-                    borderRadius: 34,
-                  }}></View>
+                    height: 40,
+                    width: 80,
+                    backgroundColor: colors.lightgray,
+                    borderRadius: 10,
+                    padding: 3,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily: fonts.PoppinsRegular,
+                      color: colors.black,
+                    }}>
+                    08:00
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
+          )}
           {/* Evening Updates */}
           <View
             style={{
@@ -499,7 +357,7 @@ const Detail = ({navigation, route}) => {
                 width: 40,
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: colors.green,
+                backgroundColor: 'pink',
                 borderRadius: 10,
               }}>
               <Icon name="moon" color={colors.white} size={20} />
@@ -508,7 +366,7 @@ const Detail = ({navigation, route}) => {
               style={{
                 height: 60,
                 width: '80%',
-                borderBottomWidth: 2,
+                borderBottomWidth: evening ? 0 : 2,
                 borderColor: colors.lightgray,
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -524,25 +382,90 @@ const Detail = ({navigation, route}) => {
                 }}>
                 Evening Updates
               </Text>
+              <Pressable onPress={() => setEvening(!evening)}>
+                <View
+                  style={{
+                    height: 40,
+                    width: 60,
+                    backgroundColor: evening
+                      ? colors.primary
+                      : colors.lightgray,
+                    borderRadius: 40,
+                    padding: 3,
+                    alignItems: evening ? 'flex-end' : 'flex-start',
+                  }}>
+                  <View
+                    style={{
+                      height: 34,
+                      width: 34,
+                      backgroundColor: colors.white,
+                      borderRadius: 34,
+                    }}></View>
+                </View>
+              </Pressable>
+            </View>
+          </View>
+          {evening && (
+            <View
+              style={{
+                height: 60,
+                width: '100%',
+                flexDirection: 'row',
+                paddingHorizontal: 20,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
               <View
                 style={{
                   height: 40,
-                  width: 60,
-                  backgroundColor: colors.primary,
-                  borderRadius: 40,
-                  padding: 3,
-                  alignItems: 'flex-end',
+                  width: 40,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 10,
+                }}></View>
+              <View
+                style={{
+                  height: 60,
+                  width: '80%',
+                  borderBottomWidth: evening ? 2 : 0,
+                  borderColor: colors.lightgray,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}>
+                <Text
+                  style={{
+                    fontFamily: fonts.PoppinsRegular,
+                    color: colors.black,
+                    marginLeft: 10,
+                    fontSize: 16,
+                    width: '50%',
+                  }}>
+                  Delivery Time
+                </Text>
+
                 <View
                   style={{
-                    height: 34,
-                    width: 34,
-                    backgroundColor: colors.white,
-                    borderRadius: 34,
-                  }}></View>
+                    height: 40,
+                    width: 80,
+                    backgroundColor: colors.lightgray,
+                    borderRadius: 10,
+                    padding: 3,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily: fonts.PoppinsRegular,
+                      color: colors.black,
+                    }}>
+                    21:00
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
+          )}
+          {/* End Evening */}
         </View>
       </ScrollView>
     </SafeAreaView>

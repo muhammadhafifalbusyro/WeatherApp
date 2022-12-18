@@ -463,7 +463,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.4)',
   },
   cityWrapper: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 25,
     paddingVertical: 5,
     flexDirection: 'row',
     justifyContent: 'center',

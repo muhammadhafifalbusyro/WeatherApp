@@ -1,10 +1,23 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {View, Text, SafeAreaView, StyleSheet, Image} from 'react-native';
 import {colors, dimens} from '../../utils';
 import {fonts, images} from '../../assets';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {GlobalContext} from '../../Store/globalContext';
 
 const Splash = ({navigation, route}) => {
+  const globalContext = useContext(GlobalContext);
+
   useEffect(() => {
+    AsyncStorage.getItem('darkmode').then(value => {
+      if (value != null || value != undefined) {
+        if (value == '1') {
+          globalContext.dispatch({type: 'TOGGLE_IS_DARK'});
+        } else {
+          globalContext.dispatch({type: 'TOGGLE_IS_LIGHT'});
+        }
+      }
+    });
     const wait = ms => {
       return new Promise(resolve => {
         setTimeout(resolve, ms);

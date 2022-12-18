@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 
     justifyContent: 'center',
     height: 75,
-    borderColor: colors.lightGray,
+    borderColor: colors.lightgray,
     position: 'absolute', //use if you want to absolute navbar
     width: '100%',
   },
