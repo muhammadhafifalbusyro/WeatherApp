@@ -191,7 +191,7 @@ const Home = ({navigation, route}) => {
             horizontal={true}
             nestedScrollEnabled={true}
             showsHorizontalScrollIndicator={false}
-            style={{paddingVertical: 25}}>
+            style={{paddingVertical: 25, paddingTop: 30}}>
             {hourlyForecast.map((value, key) => {
               return (
                 <View
@@ -446,8 +446,8 @@ const styles = StyleSheet.create({
   body: {
     width: '100%',
     backgroundColor: colors.white,
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
+    borderTopRightRadius: 15,
+    borderTopLeftRadius: 15,
     marginTop: -25,
   },
   text: {
