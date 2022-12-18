@@ -14,7 +14,7 @@ import {fonts, images} from '../../assets';
 import {GlobalContext} from '../../Store/globalContext';
 import {getMoviesFromApi} from '../../services/TestConsume';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {CardItem} from '../../components';
+import {ButtonCustom, CardItem} from '../../components';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -57,6 +57,8 @@ const Detail = ({navigation, route}) => {
   const [major, setMajor] = useState(true);
   const [morning, setMorning] = useState(true);
   const [evening, setEvening] = useState(true);
+  const [lightningTracker, setLightningTracker] = useState(true);
+  const [huricaneTracker, setHuricaneTracker] = useState(true);
 
   const openModal = key => {
     if (key == keyItem) {
@@ -466,6 +468,289 @@ const Detail = ({navigation, route}) => {
             </View>
           )}
           {/* End Evening */}
+          <Text
+            style={{
+              fontFamily: fonts.PoppinsRegular,
+              color: colors.black,
+              margin: 20,
+              marginBottom: 0,
+              fontSize: 16,
+            }}>
+            SEVERE WEATHER
+          </Text>
+          {/* Lightning Tracker */}
+          <View
+            style={{
+              height: 60,
+              width: '100%',
+              flexDirection: 'row',
+              paddingHorizontal: 20,
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <View
+              style={{
+                height: 40,
+                width: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'magenta',
+                borderRadius: 10,
+              }}>
+              <Icon name="flash" color={colors.white} size={20} />
+            </View>
+            <View
+              style={{
+                height: 60,
+                width: '80%',
+                borderBottomWidth: lightningTracker ? 0 : 2,
+                borderColor: colors.lightgray,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+              <Text
+                style={{
+                  fontFamily: fonts.PoppinsRegular,
+                  color: colors.black,
+                  marginLeft: 10,
+                  fontSize: 16,
+                  width: '50%',
+                }}>
+                Lightning Tracker
+              </Text>
+              <Pressable onPress={() => setLightningTracker(!lightningTracker)}>
+                <View
+                  style={{
+                    height: 40,
+                    width: 60,
+                    backgroundColor: lightningTracker
+                      ? colors.primary
+                      : colors.lightgray,
+                    borderRadius: 40,
+                    padding: 3,
+                    alignItems: lightningTracker ? 'flex-end' : 'flex-start',
+                  }}>
+                  <View
+                    style={{
+                      height: 34,
+                      width: 34,
+                      backgroundColor: colors.white,
+                      borderRadius: 34,
+                    }}></View>
+                </View>
+              </Pressable>
+            </View>
+          </View>
+          {lightningTracker && (
+            <View
+              style={{
+                width: '100%',
+                flexDirection: 'row',
+                paddingHorizontal: 20,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <View
+                style={{
+                  height: 40,
+                  width: 40,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 10,
+                }}></View>
+              <View
+                style={{
+                  width: '80%',
+                  borderBottomWidth: lightningTracker ? 2 : 0,
+                  borderColor: colors.lightgray,
+                  paddingVertical: 10,
+                }}>
+                <Text
+                  style={{
+                    fontFamily: fonts.PoppinsRegular,
+                    color: colors.black,
+                    marginLeft: 10,
+                    fontSize: 16,
+                    width: '100%',
+                  }}>
+                  Distance, km
+                </Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    height: 40,
+                    width: '100%',
+                    backgroundColor: colors.lightgray,
+                    borderRadius: 10,
+                    justifyContent: 'space-between',
+                    paddingVertical: 2,
+                  }}>
+                  {[1, 8, 16, 24, 48].map((value, key) => {
+                    return (
+                      <View
+                        key={key}
+                        style={{
+                          height: 36,
+                          width: '20%',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backgroundColor: value == 24 ? colors.white : '',
+                        }}>
+                        <Text
+                          style={{
+                            fontFamily: fonts.PoppinsRegular,
+                            color: colors.primary,
+                          }}>
+                          {value}
+                        </Text>
+                      </View>
+                    );
+                  })}
+                </View>
+                <Text
+                  style={{
+                    fontFamily: fonts.PoppinsRegular,
+                    color: colors.gray,
+                    marginLeft: 10,
+                    fontSize: 14,
+                    width: '100%',
+                    marginTop: 10,
+                  }}>
+                  You'll only receive notifications about lightning strikes
+                  detected within the seleceted range from the location
+                </Text>
+              </View>
+            </View>
+          )}
+          <CardItem
+            title="Hurricane Tracker "
+            iconName="thunderstorm"
+            boxIconColor="red"
+            valueToggle={huricaneTracker}
+            onChangeToggle={() => setHuricaneTracker(!huricaneTracker)}
+          />
+          <View
+            style={{
+              height: 60,
+              width: '100%',
+              flexDirection: 'row',
+              paddingHorizontal: 20,
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <View
+              style={{
+                height: 40,
+                width: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'dodgerblue',
+                borderRadius: 10,
+              }}>
+              <Icon name="alert-circle" color={colors.white} size={20} />
+            </View>
+            <View
+              style={{
+                height: 60,
+                width: '80%',
+                borderBottomWidth: lightningTracker ? 0 : 2,
+                borderColor: colors.lightgray,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+              <Text
+                style={{
+                  fontFamily: fonts.PoppinsRegular,
+                  color: colors.black,
+                  marginLeft: 10,
+                  fontSize: 16,
+                  width: '50%',
+                }}>
+                Severe Weather Alerts
+              </Text>
+              <View
+                style={{
+                  height: 40,
+                  width: 60,
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    fontFamily: fonts.PoppinsRegular,
+                    color: colors.green,
+                    textAlign: 'right',
+                  }}>
+                  All {'>'}
+                </Text>
+              </View>
+            </View>
+          </View>
+          <Text
+            style={{
+              fontFamily: fonts.PoppinsRegular,
+              color: colors.black,
+              margin: 20,
+              marginBottom: 0,
+              fontSize: 16,
+            }}>
+            ACTUAL LOCATION
+          </Text>
+          <View
+            style={{
+              height: 60,
+              width: '100%',
+              flexDirection: 'row',
+              paddingHorizontal: 20,
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <View
+              style={{
+                height: 40,
+                width: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'skyblue',
+                borderRadius: 10,
+              }}>
+              <Icon name="location" color={colors.white} size={20} />
+            </View>
+            <View
+              style={{
+                height: 60,
+                width: '80%',
+                borderBottomWidth: lightningTracker ? 0 : 2,
+                borderColor: colors.lightgray,
+                justifyContent: 'center',
+              }}>
+              <Text
+                style={{
+                  fontFamily: fonts.PoppinsRegular,
+                  color: colors.black,
+                  marginLeft: 10,
+                  fontSize: 16,
+                  width: '100%',
+                }}>
+                Bantul
+              </Text>
+              <Text
+                style={{
+                  fontFamily: fonts.PoppinsRegular,
+                  color: colors.gray,
+                  marginLeft: 10,
+                  fontSize: 12,
+                  width: '100%',
+                }}>
+                LAT:0.00000001, LON:0.0000001
+              </Text>
+            </View>
+          </View>
+          <View style={{padding: 20}}>
+            <ButtonCustom title="Delete Location" color="lightpink" />
+          </View>
+          <View style={{height: 50, width: '100%'}} />
         </View>
       </ScrollView>
     </SafeAreaView>
