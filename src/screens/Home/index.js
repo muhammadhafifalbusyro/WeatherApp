@@ -116,7 +116,7 @@ const Home = ({navigation, route}) => {
     <SafeAreaView
       style={[
         styles.container,
-        {backgroundColor: dark ? '#242424' : colors.white},
+        {backgroundColor: dark ? '#242424' : colors.lightgray},
       ]}>
       <ScrollView
         showsVerticalScrollIndicator={false}
